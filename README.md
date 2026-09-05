@@ -7,7 +7,7 @@ Run it **on the server itself**. Requires [uv](https://docs.astral.sh/uv/), Dock
 Tailscale, and restic for backups.
 
 ```sh
-uv run https://github.com/hessammehr/logseq_selfhost/raw/main/logseq.py --help
+uv run https://raw.githubusercontent.com/hessammehr/logseq_selfhost/main/logseq.py --help
 ```
 
 Or clone and run `./logseq.py --help` — uv resolves dependencies from the
