@@ -7,30 +7,33 @@ Run it **on the server itself**. Requires [uv](https://docs.astral.sh/uv/), Dock
 Tailscale, and restic for backups.
 
 ```sh
-./logseq_selfhost.py --help          # uv resolves deps from the PEP 723 header
-uv run logseq_selfhost.py --help     # equivalent
+uv run https://github.com/hessammehr/logseq_selfhost/raw/main/logseq.py --help
 ```
+
+Or clone and run `./logseq.py --help` — uv resolves dependencies from the
+PEP 723 header either way.
 
 ## Configure
 
-Every setting is a flag with an environment variable fallback:
+`--base-dir` and `--tailnet-hostname` are required; everything else has a
+default. All options have an environment variable fallback:
 
 ```sh
+export LOGSEQ_BASE_DIR=/srv/logseq-sync
 export LOGSEQ_TAILNET_HOSTNAME=server.tailnet.ts.net
-export LOGSEQ_BASE_DIR=/storage/private/logseq-sync
 export LOGSEQ_RESTIC_REPOSITORY=rclone:remote:backups/logseq
 ```
 
-`logseq_selfhost.py config --show-files` prints the resolved settings and the
-compose file and systemd units it would write.
+`logseq.py config --show-files` prints the resolved settings and the compose
+file and systemd units it would write.
 
 ## Workflow
 
 ```sh
-logseq_selfhost.py deploy            # env file, compose file, pull, start
-logseq_selfhost.py expose            # tailscale serve on 443/8443/10000
-logseq_selfhost.py backup install    # restic service + hourly timer
-logseq_selfhost.py doctor            # verify everything end to end
+logseq.py deploy            # env file, compose file, pull, start
+logseq.py expose            # tailscale serve on 443/8443/10000
+logseq.py backup install    # restic service + hourly timer
+logseq.py doctor            # verify everything end to end
 ```
 
 Day to day: `status`, `logs`, `restart`, `update <tag>`, `graphs`, `graph <id>`,

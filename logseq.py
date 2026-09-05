@@ -36,8 +36,8 @@ console = Console()
 
 @dataclass(frozen=True)
 class Deployment:
-    tailnet_hostname: str
     base_dir: Path
+    tailnet_hostname: str
     image: str
     run_as: str
     published_port: int
@@ -86,8 +86,8 @@ app.add_typer(backup_app, name="backup")
 @app.callback()
 def configure(
     ctx: typer.Context,
-    tailnet_hostname: Annotated[str, typer.Option(envvar="LOGSEQ_TAILNET_HOSTNAME", help="MagicDNS name clients connect to.")] = "server.tailnet.ts.net",
-    base_dir: Annotated[Path, typer.Option(envvar="LOGSEQ_BASE_DIR", help="Directory holding the compose file, env file and graph data.")] = Path("/storage/private/logseq-sync"),
+    base_dir: Annotated[Path, typer.Option(envvar="LOGSEQ_BASE_DIR", help="Directory holding the compose file, env file and graph data.")],
+    tailnet_hostname: Annotated[str, typer.Option(envvar="LOGSEQ_TAILNET_HOSTNAME", help="MagicDNS name clients connect to.")],
     image: Annotated[str, typer.Option(envvar="LOGSEQ_IMAGE", help="Pinned sync server image; upstream tracks master, so never ride latest.")] = SYNC_IMAGE,
     run_as: Annotated[str, typer.Option(envvar="LOGSEQ_RUN_AS", help="uid:gid the container runs as; defaults to the invoking user so the bind mount stays readable.")] = f"{os.getuid()}:{os.getgid()}",
     published_port: Annotated[int, typer.Option(envvar="LOGSEQ_PUBLISHED_PORT", help="Tailscale HTTPS port serving the sync API.")] = 10000,
@@ -96,8 +96,8 @@ def configure(
     rclone_config: Annotated[str, typer.Option(envvar="LOGSEQ_RCLONE_CONFIG", help="Path to rclone.conf used by the backup unit.")] = str(Path.home() / ".config/rclone/rclone.conf"),
 ) -> None:
     ctx.obj = Deployment(
-        tailnet_hostname=tailnet_hostname,
         base_dir=base_dir,
+        tailnet_hostname=tailnet_hostname,
         image=image,
         run_as=run_as,
         published_port=published_port,
